@@ -1,0 +1,3 @@
+---
+prlctl: '/Applications/Parallels\ Desktop.app/Contents/MacOS/prlctl'
+cidr_mask: 24

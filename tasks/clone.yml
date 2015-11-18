@@ -1,0 +1,20 @@
+---
+- name: clone VM
+  shell: '{{ prlctl }} clone {{ template }} --name {{ inventory_hostname }}'
+  delegate_to: localhost
+
+- name: disable DHCP and remove all IP addresses
+  shell: '{{ prlctl }} set {{ inventory_hostname }} --dhcp no --ipdel all'
+  delegate_to: localhost
+
+- name: set fixed IP
+  shell: '{{ prlctl }} set {{ inventory_hostname }} --ipadd {{ ip }}/{{ cidr_mask }}'
+  delegate_to: localhost
+
+- name: start VM
+  shell: '{{ prlctl }} start {{ inventory_hostname }}'
+  delegate_to: localhost
+
+- name: wait for VM
+  local_action: wait_for host={{ inventory_hostname }} port=22 connect_timeout=1 state=started 
+  become: no

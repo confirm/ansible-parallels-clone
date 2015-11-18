@@ -1,0 +1,9 @@
+---
+- name: check for existing VM in Parallels
+  shell: '{{ prlctl }} list -j {{ inventory_hostname }}'
+  register: result
+  ignore_errors: True
+  delegate_to: 'localhost'
+
+- include: clone.yml
+  when: result|failed
