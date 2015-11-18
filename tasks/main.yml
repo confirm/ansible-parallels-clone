@@ -6,6 +6,15 @@
   delegate_to: 'localhost'
   tags: parallels_clone
 
+- name: configure host alias on localhost
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^({{ ip|replace(".", "\.") }}\s|^[^\s]+\s+{{ inventory_hostname }}\s*$)'
+    line: '{{ ip }} {{ inventory_hostname }}'
+  delegate_to: localhost
+  become: yes
+  tags: parallels_clone
+
 - include: clone.yml
   when: result|failed
   tags: parallels_clone
