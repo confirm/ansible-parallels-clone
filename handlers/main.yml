@@ -1,0 +1,5 @@
+---
+- name: set hostname
+  command: 'hostname {{ inventory_hostname }}'
+  become: yes
+  tags: parallels_clone

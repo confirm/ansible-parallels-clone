@@ -4,6 +4,8 @@
   register: result
   ignore_errors: True
   delegate_to: 'localhost'
+  tags: parallels_clone
 
 - include: clone.yml
   when: result|failed
+  tags: parallels_clone

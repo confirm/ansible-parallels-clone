@@ -1,13 +1,21 @@
 parallels-clone
 ===============
 
-This role can be used to clone a VM in Parallels via `prlctl`.
+This role can be used to clone Parallels Desktop VMs.
+
+Templates
+---------
+
+To clone a new VM in Parallels you need at least one template VM, which is the origin VM for your new cloned VM. Ansible will clone this VM via Parallels `prlctl` command-line utility and sets a fixed IP address in Parallels internal DHCP server (IP reservation).
+
+Ansible will also make sure that the VM name can be looked up on your Mac OS X host (via /etc/hosts) and that the hostname of the cloned VM is updated accordingly.
 
 Requirements
 ------------
 
 * Parallels Desktop 10+
 * `prlctl` - the Parallels CLI tool
+* `sudo` access on Mac OS X for the update of the `/etc/hosts` file
 
 Role Variables
 --------------
@@ -34,7 +42,7 @@ Please note that it makes sense to set the `template` parameter directly in the 
 
 ### Parallels CLI tool (optional)
 
-To clone a VM, Ansible will use Parallels `prlctl` tool.  
+To clone a VM, Ansible will use Parallels `prlctl` tool.
 By default the tool is located in `/Applications/Parallels\ Desktop.app/Contents/MacOS/prlctl`, but you can overwrite that by settings the `prlctl` variable:
 
 ```yaml
@@ -43,7 +51,7 @@ prlctl: <new path to prlctl>
 
 ### IP CIDR mask (optional)
 
-The CIDR mask for the IP address is by default set to `24`, but you can overwrite that by set.  
+The CIDR mask for the IP address is by default set to `24`, but you can overwrite that by set.
 You can overwrite that by setting the `cidr_mask` variable:
 
 ```yaml

@@ -2,18 +2,22 @@
 - name: clone VM
   shell: '{{ prlctl }} clone {{ template }} --name {{ inventory_hostname }}'
   delegate_to: localhost
+  tags: parallels_clone
 
 - name: disable DHCP and remove all IP addresses
   shell: '{{ prlctl }} set {{ inventory_hostname }} --dhcp no --ipdel all'
   delegate_to: localhost
+  tags: parallels_clone
 
 - name: set fixed IP
   shell: '{{ prlctl }} set {{ inventory_hostname }} --ipadd {{ ip }}/{{ cidr_mask }}'
   delegate_to: localhost
+  tags: parallels_clone
 
 - name: start VM
   shell: '{{ prlctl }} start {{ inventory_hostname }}'
   delegate_to: localhost
+  tags: parallels_clone
 
 - name: configure host alias on localhost
   lineinfile:
@@ -22,6 +26,22 @@
     line: '{{ ip }} {{ inventory_hostname }}'
   delegate_to: localhost
   become: yes
+  tags: parallels_clone
 
 - name: wait for VM
   local_action: wait_for host={{ inventory_hostname }} port=22 connect_timeout=1 state=started 
+  tags: parallels_clone
+
+- name: configure hostname in configuration files
+  template:
+    src: '{{ item }}.j2'
+    dest: '/etc/{{ item }}'
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - hostname
+    - hosts
+  notify: set hostname
+  become: yes
+  tags: parallels_clone
