@@ -3,6 +3,7 @@
   shell: '{{ prlctl }} list -j {{ inventory_hostname }}'
   register: result
   ignore_errors: True
+  no_log: True
   delegate_to: 'localhost'
   tags: parallels_clone
 
