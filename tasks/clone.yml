@@ -1,22 +1,18 @@
 ---
 - name: clone VM
-  shell: '{{ prlctl }} clone {{ template }} --name {{ inventory_hostname }}'
-  delegate_to: localhost
+  local_action: shell {{ prlctl }} clone {{ template }} --name {{ inventory_hostname }}
   tags: parallels_clone
 
 - name: disable DHCP and remove all IP addresses
-  shell: '{{ prlctl }} set {{ inventory_hostname }} --dhcp no --ipdel all'
-  delegate_to: localhost
+  local_action: shell {{ prlctl }} set {{ inventory_hostname }} --dhcp no --ipdel all
   tags: parallels_clone
 
 - name: set fixed IP
-  shell: '{{ prlctl }} set {{ inventory_hostname }} --ipadd {{ ip }}/{{ cidr_mask }}'
-  delegate_to: localhost
+  local_action: shell {{ prlctl }} set {{ inventory_hostname }} --ipadd {{ ip }}/{{ cidr_mask }}
   tags: parallels_clone
 
 - name: start VM
-  shell: '{{ prlctl }} start {{ inventory_hostname }}'
-  delegate_to: localhost
+  local_action: shell {{ prlctl }} start {{ inventory_hostname }}
   tags: parallels_clone
 
 - name: wait for VM
