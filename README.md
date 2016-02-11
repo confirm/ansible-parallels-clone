@@ -42,8 +42,8 @@ Please note that it makes sense to set the `template` parameter directly in the 
 
 ### Parallels CLI tool (optional)
 
-To clone a VM, Ansible will use Parallels `prlctl` tool.
-By default the tool is located in `/Applications/Parallels\ Desktop.app/Contents/MacOS/prlctl`, but you can overwrite that by settings the `prlctl` variable:
+To clone a VM, Ansible will use Parallels `prlctl` tool. By default the tool is simply called by executing `prlctl`.
+However, if you've a specific path (e.g. `/Applications/Parallels\ Desktop.app/Contents/MacOS/prlctl`) you can overwrite that by settings the `prlctl` variable:
 
 ```yaml
 prlctl: <new path to prlctl>
